@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        val adapter = PokemonAdapter(PokemonList.pokemonList)
+        val adapter = PokemonAdapter(this,PokemonList.pokemonList)
         binding?.rvList?.adapter = adapter
 
     }
