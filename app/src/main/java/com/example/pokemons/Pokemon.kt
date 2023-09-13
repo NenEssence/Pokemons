@@ -1,9 +1,9 @@
 package com.example.pokemons
 
-data class Pokemon (
+
+data class Pokemon(
+    val id: String,
     val name: String,
-    val description: String,
-    val imageUrl: String
+    val type: String,
+    val imageFile: Int
 )
-{
-}

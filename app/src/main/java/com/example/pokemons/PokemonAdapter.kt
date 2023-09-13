@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemons.databinding.ItemPokemonBinding
 
+
+
 class PokemonAdapter( var pokemonList: List<Pokemon>): RecyclerView.Adapter<PokemonViewHolder>() {
 
 
@@ -17,5 +19,8 @@ class PokemonAdapter( var pokemonList: List<Pokemon>): RecyclerView.Adapter<Poke
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         val pokemon = pokemonList[position]
         holder.bindItem(pokemon)
+        holder.itemView.setOnClickListener{
+        }
     }
+
 }

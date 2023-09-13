@@ -9,7 +9,7 @@ class PokemonViewHolder(val itemBinding: ItemPokemonBinding) : RecyclerView.View
     fun bindItem(pokemon:Pokemon) {
 
         itemBinding.nameTextView.text = pokemon.name;
-        itemBinding.descriptionTextView.text = pokemon.description;
-
+        itemBinding.descriptionTextView.text = pokemon.type;
+        itemBinding.PokemonImageView.setImageResource(pokemon.imageFile)
     }
 }
