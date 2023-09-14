@@ -11,5 +11,6 @@ class PokemonViewHolder(val itemBinding: ItemPokemonBinding) : RecyclerView.View
         itemBinding.nameTextView.text = pokemon.name;
         itemBinding.descriptionTextView.text = pokemon.type;
         itemBinding.PokemonImageView.setImageResource(pokemon.imageFile)
+        itemBinding.idTextView.text = String.format("#%04d",pokemon.id)
     }
 }

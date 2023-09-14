@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Pokemon(
-    val id: String,
+    val id: Int,
     val name: String,
     val type: String,
     val imageFile: Int,

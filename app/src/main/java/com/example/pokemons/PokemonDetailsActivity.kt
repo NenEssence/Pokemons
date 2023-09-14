@@ -19,7 +19,7 @@ class PokemonDetailsActivity (): AppCompatActivity() {
         setContentView(bindingDetails!!.root)
 
         bindingDetails!!.pokemonDetailsImageView.setImageResource(pokemon.imageFile)
-        bindingDetails!!.nameIdTextView.text =  pokemon.name.plus(" ").plus(pokemon.id)
+        bindingDetails!!.nameIdTextView.text =  pokemon.name.plus(" #").plus(String.format("%04d",pokemon.id))
         bindingDetails!!.typeTextView.text = pokemon.type
         bindingDetails!!.hightTextView.text = pokemon.hight.toString()
         bindingDetails!!.weightTextView.text = pokemon.weight.toString()
