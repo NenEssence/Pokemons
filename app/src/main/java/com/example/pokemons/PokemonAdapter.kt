@@ -19,6 +19,8 @@ class PokemonAdapter( var pokemonList: List<Pokemon>): RecyclerView.Adapter<Poke
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         val pokemon = pokemonList[position]
         holder.bindItem(pokemon)
+
+        //TODO Вывести, принцип Single Responsobility
         holder.itemView.setOnClickListener{
         }
     }

@@ -20,7 +20,7 @@
 
     <View
         android:id="@+id/titleView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="70dp"
 
         android:background="@color/light_gray"
@@ -30,13 +30,13 @@
 
     <View
         android:id="@+id/underlineView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="3dp"
         android:layout_marginBottom="42dp"
         android:background="@color/gray"
         app:layout_constraintBottom_toTopOf="@+id/rv_list"
-        app:layout_constraintTop_toBottomOf="@+id/titleView"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
     <TextView
         android:id="@+id/textView2"
