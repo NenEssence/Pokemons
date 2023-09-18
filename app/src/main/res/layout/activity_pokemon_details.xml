@@ -19,12 +19,12 @@
 
     <View
         android:id="@+id/view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="3dp"
         android:background="@color/gray"
         app:layout_constraintBottom_toTopOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/pokemonDetailsImageView"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pokemonDetailsImageView" />
 
     <TextView
         android:id="@+id/textView3"
