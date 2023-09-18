@@ -1,7 +1,8 @@
-package com.example.pokemons
+package com.example.pokemons.Presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pokemons.Data.PokemonList
 import com.example.pokemons.databinding.ActivityPokemonDetailsBinding
 
 class PokemonDetailsActivity (): AppCompatActivity() {

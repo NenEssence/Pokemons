@@ -5,6 +5,8 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pokemons.Presentation.PokemonDetailsActivity
+import com.example.pokemons.Presentation.PokemonViewHolder
 import com.example.pokemons.databinding.ItemPokemonBinding
 
 

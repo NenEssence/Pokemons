@@ -1,7 +1,9 @@
-package com.example.pokemons
+package com.example.pokemons.Presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.pokemons.PokemonAdapter
+import com.example.pokemons.Data.PokemonList
 import com.example.pokemons.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -12,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        val adapter = PokemonAdapter(this,PokemonList.pokemonList)
+        val adapter = PokemonAdapter(this, PokemonList.pokemonList)
         binding?.rvList?.adapter = adapter
 
     }
