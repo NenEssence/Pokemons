@@ -3,6 +3,8 @@ package com.example.pokemons
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
+//imageRes чтобы показать что это ресурс
+//удалить bias
 @Parcelize
 data class Pokemon(
     val id: Int,
