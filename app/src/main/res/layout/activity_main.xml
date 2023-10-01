@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".Presentation.MainActivity">
+    tools:context=".presentation.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list"
@@ -15,7 +15,6 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
     <View

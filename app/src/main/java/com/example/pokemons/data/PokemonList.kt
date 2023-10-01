@@ -1,12 +1,11 @@
-package com.example.pokemons.Data
+package com.example.pokemons.data
 
-import com.example.pokemons.Pokemon
+import com.example.pokemons.domain.Pokemon
 import com.example.pokemons.R
 
 
 object PokemonList {
-    val pokemonList = listOf<Pokemon>(
-        //Pokemon(,"","", , ,),
+    val pokemonList = listOf(
         Pokemon(1,"Bulbasaur","Grass, Poison", R.drawable.p001, 0.7,6.9),
         Pokemon(2,"Ivysaur","Grass, Poison", R.drawable.p002, 1.0,13.0),
         Pokemon(3,"Venusaur","Grass, Poison", R.drawable.p003, 2.0,100.0),

@@ -1,36 +1,31 @@
-package com.example.pokemons.Presentation
+package com.example.pokemons.presentation
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.pokemons.PokemonAdapter
-import com.example.pokemons.Data.PokemonList
+import com.example.pokemons.presentation.rv.PokemonAdapter
+import com.example.pokemons.domain.Pokemon
 import com.example.pokemons.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    var binding: ActivityMainBinding? = null
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding?.root)
+        setContentView(binding.root)
 
-        val adapter = PokemonAdapter(PokemonList.pokemonList)
+        val adapter = PokemonAdapter()
         adapter.onClick = { openDetailActivity(it)}
 
-        binding?.rvList?.adapter = adapter
+        binding.rvList.adapter = adapter
 
     }
 
-
-    private fun openDetailActivity(position: Int){
+    private fun openDetailActivity(pokemon: Pokemon){
         val intent = Intent(this,PokemonDetailsActivity::class.java)
-        intent.putExtra("pokemonPos",position)
+        intent.putExtra("pokemonModel",pokemon)
         startActivity(intent)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
-    }
 }

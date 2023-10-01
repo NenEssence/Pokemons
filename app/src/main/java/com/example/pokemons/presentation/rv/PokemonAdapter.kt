@@ -1,15 +1,17 @@
-package com.example.pokemons
+package com.example.pokemons.presentation.rv
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pokemons.Presentation.PokemonViewHolder
+import com.example.pokemons.data.PokemonList.pokemonList
+import com.example.pokemons.domain.Pokemon
+import com.example.pokemons.presentation.PokemonViewHolder
 import com.example.pokemons.databinding.ItemPokemonBinding
 
 
-class PokemonAdapter(var pokemonList: List<Pokemon>): RecyclerView.Adapter<PokemonViewHolder>() {
+class PokemonAdapter: RecyclerView.Adapter<PokemonViewHolder>() {
 
-    lateinit var onClick: (Int) -> Unit
+    lateinit var onClick: (Pokemon) -> Unit
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
@@ -22,7 +24,7 @@ class PokemonAdapter(var pokemonList: List<Pokemon>): RecyclerView.Adapter<Pokem
         val pokemon = pokemonList[position]
         holder.bindItem(pokemon)
         holder.itemView.setOnClickListener {
-            onClick(position)
+            onClick(pokemon)
 
         }
     }

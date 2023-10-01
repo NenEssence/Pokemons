@@ -6,7 +6,7 @@
     android:layout_height="100dp">
 
     <ImageView
-        android:id="@+id/PokemonImageView"
+        android:id="@+id/pokemonImageView"
         android:layout_width="85dp"
         android:layout_height="85dp"
         android:layout_marginStart="12dp"
@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="PokemonImage"/>
+        android:contentDescription="pokemonImage"/>
 
     <TextView
         android:id="@+id/nameTextView"
@@ -28,7 +28,7 @@
         app:layout_constraintBottom_toTopOf="@+id/descriptionTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.111"
-        app:layout_constraintStart_toEndOf="@+id/PokemonImageView"
+        app:layout_constraintStart_toEndOf="@+id/pokemonImageView"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Name Name Name" />
 
@@ -68,7 +68,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/descriptionTextView"
         app:layout_constraintHorizontal_bias="0.347"
-        app:layout_constraintStart_toEndOf="@+id/PokemonImageView"
+        app:layout_constraintStart_toEndOf="@+id/pokemonImageView"
         app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
     <TextView
