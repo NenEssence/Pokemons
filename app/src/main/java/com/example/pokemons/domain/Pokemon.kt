@@ -1,9 +1,5 @@
 package com.example.pokemons.domain
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
 data class Pokemon(
     val id: Int,
     val name: String,
@@ -11,4 +7,8 @@ data class Pokemon(
     val imageFile: Int,
     val hight: Double,
     val weight: Double
-) : Parcelable
+)
+
+interface PokemonRepository{
+    fun getData(): List<Pokemon>
+}

@@ -13,10 +13,10 @@
         android:theme="@style/Theme.Pokemons"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.PokemonDetailsActivity"
+            android:name=".presentation.details.PokemonDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

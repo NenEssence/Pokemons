@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".presentation.MainActivity">
+    tools:context=".presentation.main.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list"
@@ -48,7 +48,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/titleView"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/titleView"
-        app:layout_constraintVertical_bias="0.611" />
+        />
 
     <ImageView
         android:id="@+id/imageView"
@@ -56,7 +56,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="3dp"
-        android:paddingLeft="5dp"
+        android:paddingStart="5dp"
         android:paddingTop="5dp"
         app:layout_constraintStart_toStartOf="@+id/titleView"
         app:layout_constraintTop_toTopOf="@+id/titleView"
