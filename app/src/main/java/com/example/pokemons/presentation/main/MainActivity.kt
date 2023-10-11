@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
         adapter.onClick = { openDetailActivity(it)}
 
         binding.rvList.adapter = adapter
-
     }
 
     private fun openDetailActivity(pokemon: Parcelable){
