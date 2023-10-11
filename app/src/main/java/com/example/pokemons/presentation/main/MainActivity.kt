@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import com.example.pokemons.presentation.rv.PokemonAdapter
 import com.example.pokemons.databinding.ActivityMainBinding
+import com.example.pokemons.presentation.LocationManager
 import com.example.pokemons.presentation.details.PokemonDetailsActivity
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +22,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.rvList.adapter = adapter
 
+        val locationManager = LocationManager(this)
+        locationManager.getLocation()
     }
+
 
     private fun openDetailActivity(pokemon: Parcelable){
         val intent = Intent(this, PokemonDetailsActivity::class.java)
