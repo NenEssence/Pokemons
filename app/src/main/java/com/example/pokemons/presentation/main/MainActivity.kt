@@ -6,17 +6,21 @@ import android.os.Bundle
 import android.os.Parcelable
 import com.example.pokemons.presentation.rv.PokemonAdapter
 import com.example.pokemons.databinding.ActivityMainBinding
+import com.example.pokemons.di.MyApplication.Companion.dependencyContainer
 import com.example.pokemons.presentation.details.PokemonDetailsActivity
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
+    private lateinit var adapter: PokemonAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val adapter = PokemonAdapter()
+        adapter = dependencyContainer.adapter
+        adapter.setData(dependencyContainer.pokemonList)
         adapter.onClick = { openDetailActivity(it)}
 
         binding.rvList.adapter = adapter
