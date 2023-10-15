@@ -12,7 +12,8 @@ import com.example.pokemons.presentation.MakePokemonParcelable
 
 class PokemonAdapter: RecyclerView.Adapter<PokemonViewHolder>(){
 
-    private var pokemonList: List<Pokemon> = emptyList()
+
+    var list = emptyList<Pokemon>()
     lateinit var onClick: (Parcelable) -> Unit
 
 
@@ -20,16 +21,12 @@ class PokemonAdapter: RecyclerView.Adapter<PokemonViewHolder>(){
         return PokemonViewHolder(ItemPokemonBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
-    override fun getItemCount() = pokemonList.size
+    override fun getItemCount() = list.size
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
-        val pokemon = pokemonList[position]
+        val pokemon = list[position]
         holder.bindItem(pokemon)
         holder.itemView.setOnClickListener {
             onClick(MakePokemonParcelable(pokemon))
         }
-    }
-    fun setData(newDataList: List<Pokemon>) {
-        pokemonList = newDataList
-        notifyDataSetChanged()
     }
 }
