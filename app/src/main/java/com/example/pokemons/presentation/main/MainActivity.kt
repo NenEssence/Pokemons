@@ -1,43 +1,47 @@
 package com.example.pokemons.presentation.main
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.activity.viewModels
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import com.example.pokemons.R
 import com.example.pokemons.presentation.rv.PokemonAdapter
-import com.example.pokemons.databinding.ActivityMainBinding
 import com.example.pokemons.di.MyApplication.Companion.dependencyContainer
-import com.example.pokemons.presentation.details.PokemonDetailsActivity
+import com.example.pokemons.presentation.details.PokemonDetailsFragment
+import com.example.pokemons.presentation.rv.RvFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainActivityViewModel by viewModels()
-    private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: PokemonAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        adapter = dependencyContainer.adapter
-
-        adapter.onClick = { openDetailActivity(it)}
-        binding.rvList.adapter = adapter
-
-        viewModel.pokemonList.observe(this){
-            pokemonList-> adapter.list = pokemonList
-            adapter.notifyDataSetChanged()
+        supportFragmentManager.commit {
+            replace<RvFragment>(R.id.fragment_container)
+            setReorderingAllowed(true)
+            addToBackStack("name")
         }
 
-        viewModel.loadData(dependencyContainer.repository)
+        adapter = dependencyContainer.adapter
+        adapter.onClick = { openDetailFragment(it)}
     }
 
-    private fun openDetailActivity(pokemon: Parcelable){
-        val intent = Intent(this, PokemonDetailsActivity::class.java)
-        intent.putExtra("pokemonModel",pokemon)
-        startActivity(intent)
+
+
+    private fun openDetailFragment(pokemon: Parcelable){
+        val bundle = Bundle()
+        bundle.putParcelable("pokemonData",pokemon)
+
+        val fragment = PokemonDetailsFragment()
+        fragment.arguments = bundle
+
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragment_container,fragment, fragment.toString())
+            .addToBackStack("myStack")
+        fragmentTransaction.commit()
     }
 }

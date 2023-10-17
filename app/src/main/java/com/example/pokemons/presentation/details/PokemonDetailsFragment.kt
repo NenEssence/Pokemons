@@ -2,25 +2,27 @@ package com.example.pokemons.presentation.details
 
 import android.os.Build
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.example.pokemons.databinding.ActivityPokemonDetailsBinding
+import androidx.fragment.app.Fragment
+import android.view.View
+import com.example.pokemons.R
+import com.example.pokemons.databinding.FragmentPokemonDetailsBinding
 import com.example.pokemons.presentation.MakePokemonParcelable
 
-class PokemonDetailsActivity: AppCompatActivity() {
-      private lateinit var bindingDetails: ActivityPokemonDetailsBinding
-      private var parcedData: MakePokemonParcelable? = null
+class PokemonDetailsFragment : Fragment(R.layout.fragment_pokemon_details) {
+    private lateinit var bindingDetails: FragmentPokemonDetailsBinding
+    private var parcedData: MakePokemonParcelable? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         parcedData = if (Build.VERSION.SDK_INT >= 33){
-            intent.getParcelableExtra("pokemonModel", MakePokemonParcelable::class.java)
+            arguments?.getParcelable("pokemonData", MakePokemonParcelable::class.java)
         }else{
-            intent.getParcelableExtra("pokemonModel")
+            arguments?.getParcelable("pokemonData")
         }
 
-        bindingDetails = ActivityPokemonDetailsBinding.inflate(layoutInflater)
-        setContentView(bindingDetails.root)
+        bindingDetails = FragmentPokemonDetailsBinding.bind(view)
+
 
         val detailsPokemon = parcedData?.pokemon
 
