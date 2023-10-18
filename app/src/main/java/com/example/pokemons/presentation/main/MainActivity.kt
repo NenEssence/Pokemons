@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
+
 import com.example.pokemons.presentation.rv.PokemonAdapter
 import com.example.pokemons.databinding.ActivityMainBinding
+import com.example.pokemons.di.MyApplication.Companion.dependencyContainer
 import com.example.pokemons.presentation.details.PokemonDetailsActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.pokemons.presentation.LocationManager
@@ -57,13 +59,19 @@ class MainActivity : AppCompatActivity () {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val adapter = PokemonAdapter()
-        adapter.onClick = { openDetailActivity(it)}
+        adapter = dependencyContainer.adapter
 
+        adapter.onClick = { openDetailActivity(it)}
         binding.rvList.adapter = adapter
 
 
-    }
+        viewModel.pokemonList.observe(this){
+            pokemonList-> adapter.list = pokemonList
+            adapter.notifyDataSetChanged()
+        }
+
+        viewModel.loadData(dependencyContainer.repository)
+
 
 
     private fun openDetailActivity(pokemon: Parcelable){

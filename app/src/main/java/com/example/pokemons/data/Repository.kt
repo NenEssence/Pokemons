@@ -4,7 +4,7 @@ import com.example.pokemons.domain.Pokemon
 import com.example.pokemons.domain.PokemonRepository
 
 
-class Repository: PokemonRepository {
+class Repository: PokemonRepository{
     override fun getData(): List<Pokemon> {
         return listOf(
             Pokemon(1, "Bulbasaur", "Grass, Poison", R.drawable.p001, 0.7, 6.9),
