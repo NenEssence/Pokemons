@@ -6,14 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.main.MainActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container"
-        android:name="com.example.pokemons.presentation.main.FragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleView"  />
-
     <View
         android:id="@+id/titleView"
         android:layout_width="0dp"
@@ -55,4 +47,16 @@
         app:layout_constraintStart_toStartOf="@+id/titleView"
         app:layout_constraintTop_toTopOf="@+id/titleView"
         app:srcCompat="@drawable/pokeball" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/underlineView"
+        app:navGraph="@navigation/navigation_graph" />
 </androidx.constraintlayout.widget.ConstraintLayout>

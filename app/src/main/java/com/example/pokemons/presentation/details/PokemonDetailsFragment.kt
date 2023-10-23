@@ -1,37 +1,31 @@
 package com.example.pokemons.presentation.details
 
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.navigation.fragment.navArgs
 import com.example.pokemons.R
 import com.example.pokemons.databinding.FragmentPokemonDetailsBinding
-import com.example.pokemons.presentation.MakePokemonParcelable
+import com.example.pokemons.di.MyApplication.Companion.dependencyContainer
 
 class PokemonDetailsFragment : Fragment(R.layout.fragment_pokemon_details) {
     private lateinit var bindingDetails: FragmentPokemonDetailsBinding
-    private var parcedData: MakePokemonParcelable? = null
+    val args: PokemonDetailsFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        parcedData = if (Build.VERSION.SDK_INT >= 33){
-            arguments?.getParcelable("pokemonData", MakePokemonParcelable::class.java)
-        }else{
-            arguments?.getParcelable("pokemonData")
-        }
+        val pokemonId = args.pokeminId
+        val thisPokemon = dependencyContainer.repository.getPokemonById(pokemonId)
 
         bindingDetails = FragmentPokemonDetailsBinding.bind(view)
 
-
-        val detailsPokemon = parcedData?.pokemon
-
-        if(detailsPokemon!=null) {
-            bindingDetails.pokemonDetailsImageView.setImageResource(detailsPokemon.imageFile)
-            bindingDetails.nameIdTextView.text = detailsPokemon.name.plus(" #").plus(String.format("%04d", detailsPokemon.id))
-            bindingDetails.typeTextView.text = detailsPokemon.type
-            bindingDetails.hightTextView.text = detailsPokemon.hight.toString()
-            bindingDetails.weightTextView.text = detailsPokemon.weight.toString()
+        if(thisPokemon!=null) {
+            bindingDetails.pokemonDetailsImageView.setImageResource(thisPokemon.imageFile)
+            bindingDetails.nameIdTextView.text = thisPokemon.name.plus(" #").plus(String.format("%04d", thisPokemon.id))
+            bindingDetails.typeTextView.text = thisPokemon.type
+            bindingDetails.hightTextView.text = thisPokemon.hight.toString()
+            bindingDetails.weightTextView.text = thisPokemon.weight.toString()
         }
     }
 }

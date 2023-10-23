@@ -4,12 +4,11 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.example.pokemons.R
 import com.example.pokemons.databinding.FragmentRvBinding
 import com.example.pokemons.di.MyApplication.Companion.dependencyContainer
 import com.example.pokemons.presentation.main.MainActivityViewModel
 
-class RvFragment : Fragment(R.layout.fragment_rv) {
+class RvFragment : Fragment() {
 
 
     private lateinit var binding: FragmentRvBinding
