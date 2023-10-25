@@ -4,35 +4,39 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.activity.viewModels
+import android.widget.Toast
 import com.example.pokemons.presentation.rv.PokemonAdapter
 import com.example.pokemons.databinding.ActivityMainBinding
-import com.example.pokemons.di.MyApplication.Companion.dependencyContainer
 import com.example.pokemons.presentation.details.PokemonDetailsActivity
+import androidx.activity.result.contract.ActivityResultContracts
+import com.example.pokemons.presentation.LocationManager
 
-class MainActivity : AppCompatActivity() {
-
-    private val viewModel: MainActivityViewModel by viewModels()
+class MainActivity : AppCompatActivity () {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: PokemonAdapter
+
+     private val requestPermissions =
+         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ permissions ->
+             if(permissions.containsValue(false)){
+                 Toast.makeText(this,"Доступ к геолокации запрещен",Toast.LENGTH_SHORT).show()
+             }
+             else {
+                 Toast.makeText(this,"Доступ к геолокации разрешен",Toast.LENGTH_SHORT).show()
+             }
+             }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        LocationManager(this).getLocation(requestPermissions)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = dependencyContainer.adapter
-
+        val adapter = PokemonAdapter()
         adapter.onClick = { openDetailActivity(it)}
+
         binding.rvList.adapter = adapter
-
-        viewModel.pokemonList.observe(this){
-            pokemonList-> adapter.list = pokemonList
-            adapter.notifyDataSetChanged()
-        }
-
-        viewModel.loadData(dependencyContainer.repository)
     }
 
     private fun openDetailActivity(pokemon: Parcelable){
