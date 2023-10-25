@@ -24,11 +24,12 @@ class PokemonDetailsActivity: AppCompatActivity() {
 
         val detailsPokemon = parcedData?.pokemon
 
-        bindingDetails.pokemonDetailsImageView.setImageResource(detailsPokemon!!.imageFile)
-        bindingDetails.nameIdTextView.text =  detailsPokemon.name.plus(" #").plus(String.format("%04d",detailsPokemon.id))
-        bindingDetails.typeTextView.text = detailsPokemon.type
-        bindingDetails.hightTextView.text = detailsPokemon.hight.toString()
-        bindingDetails.weightTextView.text = detailsPokemon.weight.toString()
-
+        if(detailsPokemon!=null) {
+            bindingDetails.pokemonDetailsImageView.setImageResource(detailsPokemon.imageFile)
+            bindingDetails.nameIdTextView.text = detailsPokemon.name.plus(" #").plus(String.format("%04d", detailsPokemon.id))
+            bindingDetails.typeTextView.text = detailsPokemon.type
+            bindingDetails.hightTextView.text = detailsPokemon.hight.toString()
+            bindingDetails.weightTextView.text = detailsPokemon.weight.toString()
+        }
     }
 }
