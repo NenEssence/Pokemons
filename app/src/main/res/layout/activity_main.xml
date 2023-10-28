@@ -61,5 +61,4 @@
         app:layout_constraintTop_toTopOf="@+id/titleView"
         app:srcCompat="@drawable/pokeball" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

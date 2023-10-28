@@ -3,9 +3,8 @@ import com.example.pokemons.R
 import com.example.pokemons.domain.Pokemon
 import com.example.pokemons.domain.PokemonRepository
 
-
-class Repository: PokemonRepository{
-    private val pokemons: List<Pokemon> = listOf(
+class Repository(): PokemonRepository{
+    private var pokemons: List<Pokemon> = listOf(
         Pokemon(1, "Bulbasaur", "Grass, Poison", R.drawable.p001, 0.7, 6.9),
         Pokemon(2, "Ivysaur", "Grass, Poison", R.drawable.p002, 1.0, 13.0),
         Pokemon(3, "Venusaur", "Grass, Poison", R.drawable.p003, 2.0, 100.0),
@@ -19,8 +18,7 @@ class Repository: PokemonRepository{
     override fun getData(): List<Pokemon> {
         return  pokemons
     }
-
-    override fun getPokemonById(entityId: Int): Pokemon {
-        return pokemons.find { it.id == entityId }!!
+    override fun setData(newPokemonData: List<Pokemon>) {
+        pokemons = newPokemonData
     }
 }
