@@ -8,8 +8,8 @@ data class Pokemon(
     @PrimaryKey val id: Int,
     val name: String,
     val type: String,
-    val imageFile: Int,
-    val hight: Double,
+    val imageFile: String,
+    val height: Double,
     val weight: Double
 )
 interface PokemonRepository{
