@@ -12,7 +12,7 @@ suspend fun insertPokemon(pokemon: Pokemon)
 suspend fun loadPokemonById(id: Int): Pokemon
 }
 
-class PokemonRepositoryImpl(private val pokemonDao: PokemonDao, private val pokemonApi: PokemonApi): PokemonRepository {
+class PokemonRepositoryImpl (private val pokemonDao: PokemonDao, private val pokemonApi: PokemonApi): PokemonRepository {
     override suspend fun getPokemonById(id: Int): Pokemon {
         return pokemonDao.getPokemonById(id)
     }

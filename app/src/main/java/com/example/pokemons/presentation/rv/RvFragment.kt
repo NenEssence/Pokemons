@@ -11,26 +11,30 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemons.R
+import com.example.pokemons.data.PokemonRepository
 import com.example.pokemons.databinding.FragmentRvBinding
-import com.example.pokemons.di.MyApplication.Companion.dependencyContainer
 import com.example.pokemons.presentation.main.MainActivityViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class RvFragment : Fragment(R.layout.fragment_rv) {
     private lateinit var binding: FragmentRvBinding
-    private lateinit var adapter: PokemonAdapter
     private val viewModel: MainActivityViewModel by viewModels()
+    @Inject
+    lateinit var adapter: PokemonAdapter
+    @Inject
+    lateinit var repository: PokemonRepository
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentRvBinding.bind(view)
-        adapter = dependencyContainer.adapter
         binding.rvList.adapter = adapter
-
 
         binding.rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -39,7 +43,7 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
                     binding.progressBar.visibility = View.VISIBLE
                     CoroutineScope(Dispatchers.IO).launch {
                         viewModel.insertPokemonDataFromApi(viewModel.loadMorePokemons(
-                            dependencyContainer.adapter.itemCount
+                            adapter.itemCount
                         ))
                         binding.progressBar.visibility = View.INVISIBLE
                     }
@@ -52,8 +56,8 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
             CoroutineScope(Dispatchers.IO).launch {
                 if (isOnline(view.context)) {
                     viewModel.insertPokemonDataFromApi(
-                        if(dependencyContainer.adapter.itemCount!=0){
-                            viewModel.loadNumberOfPokemons(dependencyContainer.adapter.itemCount)
+                        if(adapter.itemCount!=0){
+                            viewModel.loadNumberOfPokemons(adapter.itemCount)
                         }
                     else{
                             viewModel.loadNumberOfPokemons(20)
@@ -63,7 +67,7 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
                 }
 
         }
-        dependencyContainer.repository.getAllPokemons().asLiveData().observe(viewLifecycleOwner){
+        repository.getAllPokemons().asLiveData().observe(viewLifecycleOwner){
                 pokemonList-> adapter.list = pokemonList
             adapter.notifyDataSetChanged()
         }

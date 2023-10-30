@@ -3,22 +3,26 @@ package com.example.pokemons.data.workmanager
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.pokemons.di.MyApplication.Companion.dependencyContainer
+import com.example.pokemons.data.PokemonRepository
+import javax.inject.Inject
+
 
 class UpdateWorker(appContext: Context, workerParams: WorkerParameters): CoroutineWorker(appContext, workerParams) {
+    @Inject
+    lateinit var repository: PokemonRepository
     override suspend fun doWork(): Result {
-        val pokemonDbCount = dependencyContainer.repository.getPokemonCount()
+        val pokemonDbCount = repository.getPokemonCount()
         if(pokemonDbCount!=0){
             for(i in 1.. pokemonDbCount){
-                dependencyContainer.repository.insertPokemon(
-                    dependencyContainer.repository.getPokemonById(i)
+               repository.insertPokemon(
+                    repository.getPokemonById(i)
                 )
             }
         }
         else{
             for(i in 1.. 20){
-                dependencyContainer.repository.insertPokemon(
-                    dependencyContainer.repository.getPokemonById(i)
+                repository.insertPokemon(
+                    repository.getPokemonById(i)
                 )
             }
         }
