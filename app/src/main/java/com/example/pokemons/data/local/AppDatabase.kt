@@ -1,4 +1,4 @@
-package com.example.pokemons.data
+package com.example.pokemons.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

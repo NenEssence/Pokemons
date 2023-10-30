@@ -12,7 +12,3 @@ data class Pokemon(
     val height: Double,
     val weight: Double
 )
-interface PokemonRepository{
-    fun getData(): List<Pokemon>
-    fun setData(newPokemonData: List<Pokemon>)
-}

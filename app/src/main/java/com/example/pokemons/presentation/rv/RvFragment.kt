@@ -63,7 +63,7 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
                 }
 
         }
-        dependencyContainer.appDatabase.pokemonDao().getAllPokemons().asLiveData().observe(viewLifecycleOwner){
+        dependencyContainer.repository.getAllPokemons().asLiveData().observe(viewLifecycleOwner){
                 pokemonList-> adapter.list = pokemonList
             adapter.notifyDataSetChanged()
         }

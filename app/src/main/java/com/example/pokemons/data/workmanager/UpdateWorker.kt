@@ -7,18 +7,18 @@ import com.example.pokemons.di.MyApplication.Companion.dependencyContainer
 
 class UpdateWorker(appContext: Context, workerParams: WorkerParameters): CoroutineWorker(appContext, workerParams) {
     override suspend fun doWork(): Result {
-        val pokemonDbCount = dependencyContainer.appDatabase.pokemonDao().getPokemonCount()
+        val pokemonDbCount = dependencyContainer.repository.getPokemonCount()
         if(pokemonDbCount!=0){
             for(i in 1.. pokemonDbCount){
-                dependencyContainer.appDatabase.pokemonDao().insertPokemon(
-                    dependencyContainer.pokemonApi.getPokemonById(i).toPokemon()
+                dependencyContainer.repository.insertPokemon(
+                    dependencyContainer.repository.getPokemonById(i)
                 )
             }
         }
         else{
             for(i in 1.. 20){
-                dependencyContainer.appDatabase.pokemonDao().insertPokemon(
-                    dependencyContainer.pokemonApi.getPokemonById(i).toPokemon()
+                dependencyContainer.repository.insertPokemon(
+                    dependencyContainer.repository.getPokemonById(i)
                 )
             }
         }

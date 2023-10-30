@@ -26,16 +26,12 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        
-        //--------------------------------
-       // viewModel.insertPokemonRepository()
 
     }
 
 
     private fun openDetailFragment(pokemonId: Int){
-        val argument = pokemonId
-        val action = RvFragmentDirections.actionRvFragmentToPokemonDetailsFragment(argument)
+        val action = RvFragmentDirections.actionRvFragmentToPokemonDetailsFragment(pokemonId)
         navController.navigate(action)
     }
 
