@@ -27,17 +27,23 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         binding = FragmentRvBinding.bind(view)
         adapter = dependencyContainer.adapter
         binding.rvList.adapter = adapter
+
 
         binding.rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (!recyclerView.canScrollVertically(1)) {
-                    Log.d("MyDebug","Scroll More")
-                    //TODO loadMore()
+                    binding.progressBar.visibility = View.VISIBLE
+                    CoroutineScope(Dispatchers.IO).launch {
+                        viewModel.insertPokemonDataFromApi(viewModel.loadMorePokemons(
+                            dependencyContainer.adapter.itemCount
+                        ))
+                        binding.progressBar.visibility = View.INVISIBLE
+                    }
+
                 }
             }
         })
@@ -45,8 +51,13 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
         binding.swiperefresh.setOnRefreshListener {
             CoroutineScope(Dispatchers.IO).launch {
                 if (isOnline(view.context)) {
-                    val newPokemonList = viewModel.loadNumberOfPokemons(20)
-                    viewModel.insertPokemonDataFromApi(newPokemonList)
+                    viewModel.insertPokemonDataFromApi(
+                        if(dependencyContainer.adapter.itemCount!=0){
+                            viewModel.loadNumberOfPokemons(dependencyContainer.adapter.itemCount)
+                        }
+                    else{
+                            viewModel.loadNumberOfPokemons(20)
+                    })
                 }
                     binding.swiperefresh.isRefreshing = false
                 }
@@ -58,7 +69,7 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
         }
     }
 
-    fun isOnline(context: Context): Boolean {
+    private fun isOnline(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities =

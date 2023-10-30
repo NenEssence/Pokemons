@@ -4,6 +4,7 @@ import com.example.pokemons.data.remote.model.Sprite
 import com.example.pokemons.data.remote.model.Type
 import com.example.pokemons.domain.Pokemon
 import com.google.gson.annotations.SerializedName
+import kotlin.math.roundToInt
 
 class PokemonFromApi(
  @SerializedName("id") val id: Int,
@@ -23,7 +24,7 @@ class PokemonFromApi(
   }
   val imageFile = this.sprite.other.artwork.picture
   val height = this.height
-  val weight = this.weight * 0.1
+  val weight = ((this.weight * 0.1)*100).roundToInt()/100.0
   return Pokemon(id, name, type, imageFile, height, weight)
  }
 }

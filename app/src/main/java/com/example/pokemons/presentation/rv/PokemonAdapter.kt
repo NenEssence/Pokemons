@@ -13,7 +13,7 @@ import com.example.pokemons.domain.Pokemon
 class PokemonAdapter(context: Context): RecyclerView.Adapter<PokemonViewHolder>(){
 
 
-    val appcontext = context
+    private val appcontext = context
     var list = emptyList<Pokemon>()
     lateinit var onClick: (Int) -> Unit
 
