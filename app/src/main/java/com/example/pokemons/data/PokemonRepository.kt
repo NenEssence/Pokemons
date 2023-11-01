@@ -3,6 +3,7 @@ import com.example.pokemons.data.local.PokemonDao
 import com.example.pokemons.data.remote.PokemonApi
 import com.example.pokemons.domain.Pokemon
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Singleton
 
 interface PokemonRepository{
 suspend fun getPokemonById(id: Int): Pokemon
@@ -12,6 +13,7 @@ suspend fun insertPokemon(pokemon: Pokemon)
 suspend fun loadPokemonById(id: Int): Pokemon
 }
 
+@Singleton
 class PokemonRepositoryImpl (private val pokemonDao: PokemonDao, private val pokemonApi: PokemonApi): PokemonRepository {
     override suspend fun getPokemonById(id: Int): Pokemon {
         return pokemonDao.getPokemonById(id)

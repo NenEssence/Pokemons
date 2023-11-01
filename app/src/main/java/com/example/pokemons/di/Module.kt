@@ -38,5 +38,6 @@ object Module {
             .build()
         val pokemonApi = retrofit.create(PokemonApi::class.java)
         return PokemonRepositoryImpl (appDatabase.pokemonDao(), pokemonApi)
-    }
+
+        }
 }

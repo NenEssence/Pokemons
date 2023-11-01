@@ -23,16 +23,14 @@ class MainActivityViewModel @Inject constructor(private val repository: PokemonR
     suspend fun loadNumberOfPokemons(num: Int): List<Pokemon>{
         val newPokemonList: MutableList<Pokemon> =  mutableListOf()
         for(i in 1..num){
-            newPokemonList.add(repository.loadPokemonById(i)
-                )
+            newPokemonList.add(repository.loadPokemonById(i))
         }
         return newPokemonList
     }
-    suspend fun loadMorePokemons(lastRv: Int): List<Pokemon>{
+    suspend fun loadMorePokemons(lastRv: Int,num: Int): List<Pokemon>{
         val newPokemonList: MutableList<Pokemon> =  mutableListOf()
-        for(i in lastRv..lastRv+10){
-            newPokemonList.add(repository.loadPokemonById(i)
-                )
+        for(i in lastRv..lastRv+num){
+            newPokemonList.add(repository.loadPokemonById(i))
         }
         return newPokemonList
     }

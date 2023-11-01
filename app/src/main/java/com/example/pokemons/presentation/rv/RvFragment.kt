@@ -36,6 +36,8 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
         binding = FragmentRvBinding.bind(view)
         binding.rvList.adapter = adapter
 
+
+
         binding.rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -43,11 +45,9 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
                     binding.progressBar.visibility = View.VISIBLE
                     CoroutineScope(Dispatchers.IO).launch {
                         viewModel.insertPokemonDataFromApi(viewModel.loadMorePokemons(
-                            adapter.itemCount
-                        ))
+                            adapter.itemCount,10))
                         binding.progressBar.visibility = View.INVISIBLE
                     }
-
                 }
             }
         })
@@ -65,8 +65,8 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
                 }
                     binding.swiperefresh.isRefreshing = false
                 }
-
         }
+
         repository.getAllPokemons().asLiveData().observe(viewLifecycleOwner){
                 pokemonList-> adapter.list = pokemonList
             adapter.notifyDataSetChanged()
