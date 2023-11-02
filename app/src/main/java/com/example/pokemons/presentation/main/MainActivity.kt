@@ -1,5 +1,6 @@
 package com.example.pokemons.presentation.main
 
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -30,8 +31,9 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun openDetailFragment(pokemonId: Int){
-        val argument = pokemonId
-        val action = RvFragmentDirections.actionRvFragmentToPokemonDetailsFragment(argument)
+        val action = RvFragmentDirections.actionRvFragmentToPokemonDetailsFragment(pokemonId)
         navController.navigate(action)
     }
+
+
 }

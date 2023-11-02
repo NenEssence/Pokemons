@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.pokemons.R
 import com.example.pokemons.databinding.FragmentPokemonDetailsBinding
 import com.example.pokemons.domain.Pokemon
@@ -26,10 +27,12 @@ class PokemonDetailsFragment : Fragment(R.layout.fragment_pokemon_details) {
             pokemon = viewModel.getPokemonById(pokemonId)
             bindingDetails = FragmentPokemonDetailsBinding.bind(view)
             if(pokemon!=null) {
-                bindingDetails.pokemonDetailsImageView.setImageResource(pokemon.imageFile)
+                Glide.with(this@PokemonDetailsFragment)
+                    .load(pokemon.imageFile)
+                    .into(bindingDetails.pokemonDetailsImageView)
                 bindingDetails.nameIdTextView.text = pokemon.name.plus(" #").plus(String.format("%04d", pokemon.id))
                 bindingDetails.typeTextView.text = pokemon.type
-                bindingDetails.hightTextView.text = pokemon.hight.toString()
+                bindingDetails.hightTextView.text = pokemon.height.toString()
                 bindingDetails.weightTextView.text = pokemon.weight.toString()
             }
             }

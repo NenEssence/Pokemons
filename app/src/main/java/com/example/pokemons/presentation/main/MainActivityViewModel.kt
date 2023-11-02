@@ -8,14 +8,30 @@ import kotlinx.coroutines.launch
 
 class MainActivityViewModel: ViewModel() {
 
-    fun insertPokemonRepository() {
-        val pokemonList = dependencyContainer.repository.getData()
+    fun insertPokemonDataFromApi(pokemonList: List<Pokemon>) {
         viewModelScope.launch {
-            pokemonList.forEach() { dependencyContainer.appDatabase.pokemonDao().insert(it) }
+            pokemonList.forEach() { dependencyContainer.repository.insertPokemon(it) }
         }
     }
     suspend fun getPokemonById(pokemonId: Int): Pokemon {
-        return dependencyContainer.appDatabase.pokemonDao().getPokemonById(pokemonId)
+        return dependencyContainer.repository.getPokemonById(pokemonId)
+    }
+
+    suspend fun loadNumberOfPokemons(num: Int): List<Pokemon>{
+        val newPokemonList: MutableList<Pokemon> =  mutableListOf()
+        for(i in 1..num){
+            newPokemonList.add(dependencyContainer.repository.loadPokemonById(i)
+                )
+        }
+        return newPokemonList
+    }
+    suspend fun loadMorePokemons(lastRv: Int): List<Pokemon>{
+        val newPokemonList: MutableList<Pokemon> =  mutableListOf()
+        for(i in lastRv..lastRv+10){
+            newPokemonList.add(dependencyContainer.repository.loadPokemonById(i)
+                )
+        }
+        return newPokemonList
     }
 }
 
