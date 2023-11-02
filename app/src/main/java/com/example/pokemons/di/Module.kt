@@ -12,6 +12,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -32,8 +34,16 @@ object Module {
             Room.databaseBuilder(context, AppDatabase::class.java, "database.db")
                 .build()
         }
+
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        val client = OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .build()
+
         val retrofit = Retrofit.Builder()
             .baseUrl("https://pokeapi.co/api/v2/")
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val pokemonApi = retrofit.create(PokemonApi::class.java)

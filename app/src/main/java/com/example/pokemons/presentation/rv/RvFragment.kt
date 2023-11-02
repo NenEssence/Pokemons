@@ -4,8 +4,11 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
@@ -18,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 
@@ -44,8 +48,22 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
                 if (!recyclerView.canScrollVertically(1)) {
                     binding.progressBar.visibility = View.VISIBLE
                     CoroutineScope(Dispatchers.IO).launch {
-                        viewModel.insertPokemonDataFromApi(viewModel.loadMorePokemons(
-                            adapter.itemCount,10))
+                        try {
+                            viewModel.insertPokemonDataFromApi(
+                                viewModel.loadMorePokemons(
+                                    adapter.itemCount, 10
+                                )
+                            )
+                        }
+                        catch (e: IOException){
+                            Handler(Looper.getMainLooper()).post {
+                                Toast.makeText(
+                                    context,
+                                    "No internet connection.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
                         binding.progressBar.visibility = View.INVISIBLE
                     }
                 }
@@ -54,18 +72,25 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
 
         binding.swiperefresh.setOnRefreshListener {
             CoroutineScope(Dispatchers.IO).launch {
-                if (isOnline(view.context)) {
-                    viewModel.insertPokemonDataFromApi(
-                        if(adapter.itemCount!=0){
-                            viewModel.loadNumberOfPokemons(adapter.itemCount)
-                        }
-                    else{
-                            viewModel.loadNumberOfPokemons(20)
-                    })
+                    try {
+                        viewModel.insertPokemonDataFromApi(
+                            if (adapter.itemCount != 0) {
+                                viewModel.loadNumberOfPokemons(adapter.itemCount)
+                            } else {
+                                viewModel.loadNumberOfPokemons(20)
+                            }
+                        )
                 }
-                    binding.swiperefresh.isRefreshing = false
+                catch(e: IOException) {
+                    Handler(Looper.getMainLooper()).post {
+                        Toast.makeText(context, "No internet connection.", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
-        }
+                binding.swiperefresh.isRefreshing = false
+                }
+                }
+
 
         repository.getAllPokemons().asLiveData().observe(viewLifecycleOwner){
                 pokemonList-> adapter.list = pokemonList
@@ -92,6 +117,4 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
         }
         return false
     }
-
-
 }

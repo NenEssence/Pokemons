@@ -25,7 +25,7 @@ class PokemonAdapter(context: Context): RecyclerView.Adapter<PokemonViewHolder>(
         val pokemon = list[position]
         Glide.with(appcontext)
             .load(pokemon.imageFile)
-            .into(holder.pokemonImageView);
+            .into(holder.pokemonImageView)
         holder.bindItem(pokemon)
         holder.itemView.setOnClickListener {
             onClick(pokemon.id)
