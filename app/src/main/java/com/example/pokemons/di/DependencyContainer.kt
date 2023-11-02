@@ -7,5 +7,5 @@ class DependencyContainer {
     //adapter
     val adapter = PokemonAdapter()
     //Pokemon data
-     val repository = Repository()
+    val repository = Repository()
 }

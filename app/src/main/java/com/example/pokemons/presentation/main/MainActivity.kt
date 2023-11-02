@@ -1,43 +1,41 @@
 package com.example.pokemons.presentation.main
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
 import androidx.activity.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import com.example.pokemons.R
 import com.example.pokemons.presentation.rv.PokemonAdapter
-import com.example.pokemons.databinding.ActivityMainBinding
 import com.example.pokemons.di.MyApplication.Companion.dependencyContainer
-import com.example.pokemons.presentation.details.PokemonDetailsActivity
+import com.example.pokemons.presentation.rv.RvFragmentDirections
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainActivityViewModel by viewModels()
-    private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: PokemonAdapter
+    private lateinit var navController: NavController
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         adapter = dependencyContainer.adapter
+        adapter.onClick = { openDetailFragment(it)}
 
-        adapter.onClick = { openDetailActivity(it)}
-        binding.rvList.adapter = adapter
-
-        viewModel.pokemonList.observe(this){
-            pokemonList-> adapter.list = pokemonList
-            adapter.notifyDataSetChanged()
-        }
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
 
         viewModel.loadData(dependencyContainer.repository)
     }
 
-    private fun openDetailActivity(pokemon: Parcelable){
-        val intent = Intent(this, PokemonDetailsActivity::class.java)
-        intent.putExtra("pokemonModel",pokemon)
-        startActivity(intent)
+
+
+    private fun openDetailFragment(pokemonId: Int){
+        var argument = pokemonId
+        val action = RvFragmentDirections.actionRvFragmentToPokemonDetailsFragment(argument)
+        navController.navigate(action)
     }
 }

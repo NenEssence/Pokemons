@@ -11,4 +11,5 @@ data class Pokemon(
 
 interface PokemonRepository{
     fun getData(): List<Pokemon>
+    fun getPokemonById(entityId: Int): Pokemon
 }
