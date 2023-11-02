@@ -1,23 +1,18 @@
 package com.example.pokemons.di
 
 import android.app.Application
-import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkManager
-import com.example.pokemons.data.workmanager.UpdateWorker
-import java.util.concurrent.TimeUnit
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
+import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
-class  MyApplication : Application() {
-    companion object{
-        lateinit var dependencyContainer: DependencyContainer
-    }
-    override fun onCreate() {
-        super.onCreate()
-        dependencyContainer = DependencyContainer(this)
-
-        val updateWorker = PeriodicWorkRequest.Builder(UpdateWorker::class.java,30, TimeUnit.MINUTES,25, TimeUnit.MINUTES)
+@HiltAndroidApp
+class  MyApplication : Application(), androidx.work.Configuration.Provider {
+    @Inject lateinit var workerFactory: HiltWorkerFactory
+    override fun getWorkManagerConfiguration(): Configuration {
+        return Configuration.Builder()
+            .setWorkerFactory(workerFactory)
             .build()
-        WorkManager.getInstance(this).enqueue(updateWorker)
-
     }
 }
 

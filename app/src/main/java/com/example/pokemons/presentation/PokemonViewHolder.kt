@@ -6,7 +6,6 @@ import com.example.pokemons.domain.Pokemon
 import com.example.pokemons.databinding.ItemPokemonBinding
 
 
-
 class PokemonViewHolder(val itemBinding: ItemPokemonBinding) : RecyclerView.ViewHolder(itemBinding.root){
     var pokemonImageView: ImageView = itemBinding.pokemonImageView
 

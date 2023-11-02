@@ -1,12 +1,15 @@
 # Pokemons
 
-Версии: 1.0.0 - отображение списка покемонов, Activity с детальным описанием.
+Version: 2.0.0
 
-## Автор
+## Author
 
 Andrei Sheverinov
 
-## Технологии
+## Technologies
 
-- Kotlin
-- Clean Architecture
+* Kotlin
+* Clean Architecture
+* Room
+* Retrofit
+* Work Manager
