@@ -1,16 +1,21 @@
 package com.example.pokemons.presentation.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.pokemons.data.Repository
+import androidx.lifecycle.viewModelScope
+import com.example.pokemons.di.MyApplication.Companion.dependencyContainer
 import com.example.pokemons.domain.Pokemon
+import kotlinx.coroutines.launch
 
 class MainActivityViewModel: ViewModel() {
-    private val liveData = MutableLiveData<List<Pokemon>>()
-    val pokemonList: LiveData<List<Pokemon>> = liveData
 
-    fun loadData(newRepository: Repository) {
-        liveData.postValue(newRepository.getData())
+    fun insertPokemonRepository() {
+        val pokemonList = dependencyContainer.repository.getData()
+        viewModelScope.launch {
+            pokemonList.forEach() { dependencyContainer.appDatabase.pokemonDao().insert(it) }
+        }
+    }
+    suspend fun getPokemonById(pokemonId: Int): Pokemon {
+        return dependencyContainer.appDatabase.pokemonDao().getPokemonById(pokemonId)
     }
 }
+

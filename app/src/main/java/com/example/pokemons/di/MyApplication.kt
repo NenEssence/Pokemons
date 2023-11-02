@@ -8,6 +8,7 @@ class  MyApplication : Application() {
     }
     override fun onCreate() {
         super.onCreate()
-        dependencyContainer = DependencyContainer()
+        dependencyContainer = DependencyContainer(this)
     }
 }
+
