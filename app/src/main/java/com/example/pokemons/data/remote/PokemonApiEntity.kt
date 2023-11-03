@@ -6,7 +6,9 @@ import com.example.pokemons.domain.Pokemon
 import com.google.gson.annotations.SerializedName
 import kotlin.math.roundToInt
 
-class PokemonFromApi(
+
+
+class PokemonApiEntity(
  @SerializedName("id") val id: Int,
  @SerializedName("name") val name: String,
  @SerializedName("weight") val weight: Double,
