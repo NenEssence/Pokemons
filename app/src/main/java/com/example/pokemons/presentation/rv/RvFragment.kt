@@ -1,12 +1,8 @@
 package com.example.pokemons.presentation.rv
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -14,8 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemons.R
-import com.example.pokemons.data.PokemonRepository
 import com.example.pokemons.databinding.FragmentRvBinding
+import com.example.pokemons.domain.PokemonInteractor
 import com.example.pokemons.presentation.main.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -32,7 +28,7 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
     @Inject
     lateinit var adapter: PokemonAdapter
     @Inject
-    lateinit var repository: PokemonRepository
+    lateinit var pokemonInteractor: PokemonInteractor
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -92,29 +88,9 @@ class RvFragment : Fragment(R.layout.fragment_rv) {
                 }
 
 
-        repository.getAllPokemons().asLiveData().observe(viewLifecycleOwner){
+        pokemonInteractor.getAllPokemons().asLiveData().observe(viewLifecycleOwner){
                 pokemonList-> adapter.list = pokemonList
             adapter.notifyDataSetChanged()
         }
-    }
-
-    private fun isOnline(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val capabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        if (capabilities != null) {
-            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
-                return true
-            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
-                return true
-            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
-                return true
-            }
-        }
-        return false
     }
 }
