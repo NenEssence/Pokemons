@@ -5,8 +5,8 @@ import androidx.room.Room
 import com.example.pokemons.data.PokemonRepositoryImpl
 import com.example.pokemons.data.local.AppDatabase
 import com.example.pokemons.data.local.Mapper
+import com.example.pokemons.data.local.PokemonDao
 import com.example.pokemons.data.remote.PokemonApi
-import com.example.pokemons.domain.PokemonInteractor
 import com.example.pokemons.domain.PokemonRepository
 import com.example.pokemons.presentation.rv.PokemonAdapter
 import dagger.Module
@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-@InstallIn (SingletonComponent::class)
+@InstallIn(SingletonComponent::class)
 object Module {
 
     @Provides
@@ -29,31 +29,41 @@ object Module {
     fun provideAdapter(@ApplicationContext context: Context): PokemonAdapter {
         return PokemonAdapter(context)
     }
+
     @Provides
     @Singleton
-    fun provideRepository(@ApplicationContext context: Context): PokemonRepository {
-        val appDatabase: AppDatabase by lazy {
-            Room.databaseBuilder(context, AppDatabase::class.java, "database.db")
-                .build()
-        }
+    fun provideRepository(
+        pokemonDao: PokemonDao,
+        pokemonApi: PokemonApi,
+        mapper: Mapper
+    ): PokemonRepository = PokemonRepositoryImpl(pokemonDao, pokemonApi, mapper)
 
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .build()
 
-        val retrofit = Retrofit.Builder()
+    @Provides
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase =
+        Room.databaseBuilder(context, AppDatabase::class.java, "database.db").build()
+
+    @Provides
+    fun providesPokemonDao(appDataBase: AppDatabase): PokemonDao = appDataBase.pokemonDao()
+
+    @Provides
+    fun provideLoggingIntercepter(): HttpLoggingInterceptor = HttpLoggingInterceptor()
+
+    @Provides
+    fun providesClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
+        OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
+
+    @Provides
+    fun providesRetrofit(client: OkHttpClient): Retrofit =
+        Retrofit.Builder()
             .baseUrl("https://pokeapi.co/api/v2/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        val pokemonApi = retrofit.create(PokemonApi::class.java)
-        val mapper = Mapper()
-        return PokemonRepositoryImpl (appDatabase.pokemonDao(), pokemonApi, mapper)
-        }
+
     @Provides
-    fun provideInteractor(repository: PokemonRepository): PokemonInteractor{
-        return PokemonInteractor(repository)
-    }
+    fun providesPokemonApi(retrofit: Retrofit): PokemonApi = retrofit.create(PokemonApi::class.java)
+
+    @Provides
+    fun provideMapper(): Mapper = Mapper()
 }

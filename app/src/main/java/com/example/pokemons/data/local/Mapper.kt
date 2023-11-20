@@ -1,4 +1,5 @@
 package com.example.pokemons.data.local
+
 import com.example.pokemons.domain.Pokemon
 
 class Mapper {
