@@ -5,19 +5,19 @@ import androidx.lifecycle.ViewModel
 import com.example.pokemons.domain.PokemonInteractor
 import com.example.pokemons.domain.entities.Pokemon
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.io.IOException
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import java.io.IOException
-import javax.inject.Inject
 
 @HiltViewModel
 class PokemonsViewModel @Inject constructor(private val pokemonInteractor: PokemonInteractor) :
     ViewModel() {
-    private val mutex = Mutex()
+
 
     private val _pokemonDetailsLiveData = MutableLiveData<Pokemon>()
     val pokemonDetailsLiveData: MutableLiveData<Pokemon> = _pokemonDetailsLiveData
@@ -28,38 +28,51 @@ class PokemonsViewModel @Inject constructor(private val pokemonInteractor: Pokem
     private val _errorStateLiveData = MutableLiveData<Boolean>()
     val errorStateLiveData: MutableLiveData<Boolean> = _errorStateLiveData
 
+    private var canLoadMore: Boolean = true
+
+    private val mutex = Mutex()
+
     fun setDetailsPokemon(pokemonId: Int) {
         CoroutineScope(Dispatchers.IO).launch() {
             _pokemonDetailsLiveData.postValue(pokemonInteractor.getPokemonById(pokemonId))
         }
     }
 
+    private fun errorStateCall() {
+        _errorStateLiveData.postValue(true)
+    }
+
+    private fun loadingStateChange(boolean: Boolean) {
+        _loadingStateLiveData.postValue(boolean)
+    }
 
     fun loadStartPokemons() {
+        canLoadMore = false
         CoroutineScope(Dispatchers.IO).launch() {
             mutex.withLock {
                 try {
-                    _loadingStateLiveData.postValue(true)
+                    loadingStateChange(true)
                     pokemonInteractor.loadStartPokemons()
-                    _loadingStateLiveData.postValue(false)
                 } catch (e: IOException) {
-                    _loadingStateLiveData.postValue(false)
-                    _errorStateLiveData.postValue(true)
+                    errorStateCall()
                 }
+                loadingStateChange(false)
             }
+            canLoadMore = true
         }
     }
 
     fun loadMorePokemons() {
-        CoroutineScope(Dispatchers.IO).launch() {
-            mutex.withLock {
-                try {
-                    _loadingStateLiveData.postValue(true)
-                    pokemonInteractor.loadMorePokemons()
-                    _loadingStateLiveData.postValue(false)
-                } catch (e: IOException) {
-                    _loadingStateLiveData.postValue(false)
-                    _errorStateLiveData.postValue(true)
+        if (canLoadMore) {
+            CoroutineScope(Dispatchers.IO).launch() {
+                mutex.withLock {
+                    try {
+                        loadingStateChange(true)
+                        pokemonInteractor.loadMorePokemons()
+                    } catch (e: IOException) {
+                        errorStateCall()
+                    }
+                    loadingStateChange(false)
                 }
             }
         }
@@ -68,20 +81,16 @@ class PokemonsViewModel @Inject constructor(private val pokemonInteractor: Pokem
     fun updatePokemons() {
         CoroutineScope(Dispatchers.IO).launch() {
             try {
-                _loadingStateLiveData.postValue(true)
+                loadingStateChange(true)
                 pokemonInteractor.updatePokemons()
-                _loadingStateLiveData.postValue(false)
             } catch (e: IOException) {
-                _loadingStateLiveData.postValue(false)
-                _errorStateLiveData.postValue(true)
+                errorStateCall()
             }
+            loadingStateChange(false)
         }
     }
 
     fun getAllPokemons(): Flow<List<Pokemon>> {
-        _loadingStateLiveData.postValue(true)
         return pokemonInteractor.getAllPokemons()
     }
-
-
 }

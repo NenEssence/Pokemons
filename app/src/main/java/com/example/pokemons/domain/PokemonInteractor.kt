@@ -13,15 +13,15 @@ class PokemonInteractor(private val repository: PokemonRepository) {
         return repository.getAllPokemons()
     }
 
-    suspend fun updatePokemons(){
+    suspend fun updatePokemons() {
         return repository.updatePokemons()
     }
 
-    suspend fun loadMorePokemons(){
+    suspend fun loadMorePokemons() {
         return repository.loadMorePokemons()
     }
 
-    suspend fun loadStartPokemons(){
+    suspend fun loadStartPokemons() {
         return repository.loadStartPokemons()
     }
 }

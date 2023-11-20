@@ -15,11 +15,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -35,6 +35,7 @@ object Module {
     fun provideInteractor(repository: PokemonRepository): PokemonInteractor {
         return PokemonInteractor(repository)
     }
+
     @Provides
     @Singleton
     fun provideRepository(
@@ -43,7 +44,6 @@ object Module {
         mapper: Mapper
     ): PokemonRepository = PokemonRepositoryImpl(pokemonDao, pokemonApi, mapper)
 
-
     @Provides
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase =
         Room.databaseBuilder(context, AppDatabase::class.java, "database.db").build()
@@ -51,8 +51,7 @@ object Module {
     @Provides
     fun providesPokemonDao(appDataBase: AppDatabase): PokemonDao = appDataBase.pokemonDao()
 
-    @Provides
-    fun provideLoggingIntercepter(): HttpLoggingInterceptor = HttpLoggingInterceptor()
+    @Provides fun provideLoggingIntercepter(): HttpLoggingInterceptor = HttpLoggingInterceptor()
 
     @Provides
     fun providesClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
@@ -69,6 +68,5 @@ object Module {
     @Provides
     fun providesPokemonApi(retrofit: Retrofit): PokemonApi = retrofit.create(PokemonApi::class.java)
 
-    @Provides
-    fun provideMapper(): Mapper = Mapper()
+    @Provides fun provideMapper(): Mapper = Mapper()
 }

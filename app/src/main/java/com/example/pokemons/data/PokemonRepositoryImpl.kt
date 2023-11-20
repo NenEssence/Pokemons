@@ -5,9 +5,9 @@ import com.example.pokemons.data.local.PokemonDao
 import com.example.pokemons.data.remote.PokemonApi
 import com.example.pokemons.domain.entities.Pokemon
 import com.example.pokemons.domain.repository.PokemonRepository
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Singleton
 
 @Singleton
 class PokemonRepositoryImpl(
@@ -39,19 +39,19 @@ class PokemonRepositoryImpl(
 
     override suspend fun updatePokemons() {
         val pokemonCount = getPokemonCount()
-        for( i in 1..pokemonCount){
+        for (i in 1..pokemonCount) {
             insertPokemon(loadPokemonById(i))
         }
     }
 
-    override suspend fun loadMorePokemons(){
+    override suspend fun loadMorePokemons() {
         val currentCount = getPokemonCount()
         for (i in currentCount..currentCount + 10) {
             insertPokemon(loadPokemonById(i))
         }
     }
 
-    override suspend fun loadStartPokemons(){
+    override suspend fun loadStartPokemons() {
         val currentCount = getPokemonCount()
         if (currentCount == 0) {
             for (i in 1..20) {

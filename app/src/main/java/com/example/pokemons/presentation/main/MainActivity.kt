@@ -15,10 +15,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    @Inject
-    lateinit var adapter: PokemonAdapter
+    @Inject lateinit var adapter: PokemonAdapter
     private lateinit var navController: NavController
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +27,6 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         startWork()
     }
-
 
     private fun startWork() {
         val updateWorker =

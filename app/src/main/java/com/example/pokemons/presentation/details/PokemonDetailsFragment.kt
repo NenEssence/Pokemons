@@ -15,11 +15,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PokemonDetailsFragment : Fragment(R.layout.fragment_pokemon_details) {
     private var _bindingDetails: FragmentPokemonDetailsBinding? = null
-    private val bindingDetails get() = _bindingDetails!!
+    private val bindingDetails
+        get() = _bindingDetails!!
+
     private val pokemonsViewModel: PokemonsViewModel by activityViewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _bindingDetails = FragmentPokemonDetailsBinding.inflate(inflater, container, false)

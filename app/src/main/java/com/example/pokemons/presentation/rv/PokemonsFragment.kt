@@ -21,13 +21,14 @@ class PokemonsFragment : Fragment(R.layout.fragment_pokemons) {
     private val pokemonsViewModel: PokemonsViewModel by activityViewModels()
 
     private var _binding: FragmentPokemonsBinding? = null
-    private val binding get() = _binding!!
+    private val binding
+        get() = _binding!!
 
-    @Inject
-    lateinit var adapter: PokemonAdapter
+    @Inject lateinit var adapter: PokemonAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPokemonsBinding.inflate(inflater, container, false)
@@ -37,9 +38,10 @@ class PokemonsFragment : Fragment(R.layout.fragment_pokemons) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         pokemonsViewModel.loadStartPokemons()
+
         binding.rvList.adapter = adapter
+
         binding.rvList.addOnScrollListener(
             object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -50,10 +52,7 @@ class PokemonsFragment : Fragment(R.layout.fragment_pokemons) {
                 }
             }
         )
-        binding.swiperefresh.setOnRefreshListener {
-            pokemonsViewModel.updatePokemons()
-        }
-
+        binding.swiperefresh.setOnRefreshListener { pokemonsViewModel.updatePokemons() }
 
         adapter.onClick = {
             pokemonsViewModel.setDetailsPokemon(it)
@@ -61,25 +60,24 @@ class PokemonsFragment : Fragment(R.layout.fragment_pokemons) {
             binding.root.findNavController().navigate(action)
         }
 
-
-        pokemonsViewModel.loadingStateLiveData.observe(viewLifecycleOwner){
-            if(it==true){
+        pokemonsViewModel.loadingStateLiveData.observe(viewLifecycleOwner) {
+            if (it == true) {
                 binding.swiperefresh.isRefreshing = false
                 binding.progressBar.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.progressBar.visibility = View.INVISIBLE
             }
         }
-        pokemonsViewModel.errorStateLiveData.observe(viewLifecycleOwner){
-      Toast.makeText(context,"No internet connection...",Toast.LENGTH_SHORT).show()
+        pokemonsViewModel.errorStateLiveData.observe(viewLifecycleOwner) {
+            Toast.makeText(context, "No internet connection...", Toast.LENGTH_SHORT).show()
         }
 
         pokemonsViewModel.getAllPokemons().asLiveData().observe(viewLifecycleOwner) { pokemonList ->
             adapter.list = pokemonList
             adapter.notifyDataSetChanged()
-
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
