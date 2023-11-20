@@ -24,7 +24,8 @@ class PokemonsFragment : Fragment(R.layout.fragment_pokemons) {
     private val binding
         get() = _binding!!
 
-    @Inject lateinit var adapter: PokemonAdapter
+    @Inject
+    lateinit var adapter: PokemonAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +53,7 @@ class PokemonsFragment : Fragment(R.layout.fragment_pokemons) {
                 }
             }
         )
+
         binding.swiperefresh.setOnRefreshListener { pokemonsViewModel.updatePokemons() }
 
         adapter.onClick = {
@@ -62,12 +64,13 @@ class PokemonsFragment : Fragment(R.layout.fragment_pokemons) {
 
         pokemonsViewModel.loadingStateLiveData.observe(viewLifecycleOwner) {
             if (it == true) {
-                binding.swiperefresh.isRefreshing = false
                 binding.progressBar.visibility = View.VISIBLE
             } else {
                 binding.progressBar.visibility = View.INVISIBLE
             }
+            binding.swiperefresh.isRefreshing = false
         }
+
         pokemonsViewModel.errorStateLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(context, "No internet connection...", Toast.LENGTH_SHORT).show()
         }
