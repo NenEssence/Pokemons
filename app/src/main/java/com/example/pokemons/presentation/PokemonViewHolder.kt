@@ -3,7 +3,7 @@ package com.example.pokemons.presentation
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemons.databinding.ItemPokemonBinding
-import com.example.pokemons.domain.Pokemon
+import com.example.pokemons.domain.entities.Pokemon
 
 class PokemonViewHolder(val itemBinding: ItemPokemonBinding) :
     RecyclerView.ViewHolder(itemBinding.root) {

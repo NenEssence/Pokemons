@@ -1,5 +1,6 @@
-package com.example.pokemons.domain
+package com.example.pokemons.domain.repository
 
+import com.example.pokemons.domain.entities.Pokemon
 import kotlinx.coroutines.flow.Flow
 
 interface PokemonRepository {

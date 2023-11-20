@@ -2,7 +2,7 @@ package com.example.pokemons.data.remote
 
 import com.example.pokemons.data.remote.model.Sprite
 import com.example.pokemons.data.remote.model.Type
-import com.example.pokemons.domain.Pokemon
+import com.example.pokemons.domain.entities.Pokemon
 import com.google.gson.annotations.SerializedName
 import kotlin.math.roundToInt
 

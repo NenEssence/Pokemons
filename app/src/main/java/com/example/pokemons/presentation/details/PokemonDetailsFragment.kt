@@ -1,7 +1,9 @@
 package com.example.pokemons.presentation.details
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
@@ -12,14 +14,21 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PokemonDetailsFragment : Fragment(R.layout.fragment_pokemon_details) {
-    private lateinit var bindingDetails: FragmentPokemonDetailsBinding
+    private var _bindingDetails: FragmentPokemonDetailsBinding? = null
+    private val bindingDetails get() = _bindingDetails!!
     private val pokemonsViewModel: PokemonsViewModel by activityViewModels()
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _bindingDetails = FragmentPokemonDetailsBinding.inflate(inflater, container, false)
+        return bindingDetails.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bindingDetails = FragmentPokemonDetailsBinding.bind(view)
-        pokemonsViewModel.pokemonLiveData.observe(viewLifecycleOwner) {
+        pokemonsViewModel.pokemonDetailsLiveData.observe(viewLifecycleOwner) {
             Glide.with(this@PokemonDetailsFragment)
                 .load(it.imageFile)
                 .into(bindingDetails.pokemonDetailsImageView)
@@ -31,5 +40,10 @@ class PokemonDetailsFragment : Fragment(R.layout.fragment_pokemon_details) {
             val weightString = it.weight.toString() + "  kg"
             bindingDetails.weightTextView.text = weightString
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _bindingDetails = null
     }
 }

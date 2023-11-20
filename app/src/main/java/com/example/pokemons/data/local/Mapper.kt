@@ -1,6 +1,6 @@
 package com.example.pokemons.data.local
 
-import com.example.pokemons.domain.Pokemon
+import com.example.pokemons.domain.entities.Pokemon
 
 class Mapper {
     fun mapToPokemon(pokemon: PokemonDbEntity): Pokemon {

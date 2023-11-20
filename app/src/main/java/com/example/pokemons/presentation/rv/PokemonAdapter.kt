@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pokemons.databinding.ItemPokemonBinding
-import com.example.pokemons.domain.Pokemon
+import com.example.pokemons.domain.entities.Pokemon
 import com.example.pokemons.presentation.PokemonViewHolder
 
 class PokemonAdapter(context: Context) : RecyclerView.Adapter<PokemonViewHolder>() {

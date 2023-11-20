@@ -3,8 +3,8 @@ package com.example.pokemons.data
 import com.example.pokemons.data.local.Mapper
 import com.example.pokemons.data.local.PokemonDao
 import com.example.pokemons.data.remote.PokemonApi
-import com.example.pokemons.domain.Pokemon
-import com.example.pokemons.domain.PokemonRepository
+import com.example.pokemons.domain.entities.Pokemon
+import com.example.pokemons.domain.repository.PokemonRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Singleton

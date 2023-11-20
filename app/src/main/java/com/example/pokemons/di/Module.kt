@@ -7,7 +7,8 @@ import com.example.pokemons.data.local.AppDatabase
 import com.example.pokemons.data.local.Mapper
 import com.example.pokemons.data.local.PokemonDao
 import com.example.pokemons.data.remote.PokemonApi
-import com.example.pokemons.domain.PokemonRepository
+import com.example.pokemons.domain.PokemonInteractor
+import com.example.pokemons.domain.repository.PokemonRepository
 import com.example.pokemons.presentation.rv.PokemonAdapter
 import dagger.Module
 import dagger.Provides
@@ -30,6 +31,10 @@ object Module {
         return PokemonAdapter(context)
     }
 
+    @Provides
+    fun provideInteractor(repository: PokemonRepository): PokemonInteractor {
+        return PokemonInteractor(repository)
+    }
     @Provides
     @Singleton
     fun provideRepository(
