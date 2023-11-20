@@ -1,4 +1,4 @@
-package com.example.pokemons.domain
+package com.example.pokemons.domain.entities
 
 data class Pokemon(
     val id: Int,
