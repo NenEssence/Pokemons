@@ -13,19 +13,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemons.R
 import com.example.pokemons.databinding.FragmentPokemonsBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class PokemonsFragment : Fragment(R.layout.fragment_pokemons) {
-
     private val pokemonsViewModel: PokemonsViewModel by activityViewModels()
-
     private var _binding: FragmentPokemonsBinding? = null
     private val binding
         get() = _binding!!
 
-    @Inject
-    lateinit var adapter: PokemonAdapter
+    private val adapter = PokemonAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
