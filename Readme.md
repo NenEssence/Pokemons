@@ -1,5 +1,5 @@
 <h1 align ="center">  Pokemons </h1>
-<p align="center">Version: 2.1.1</p>
+<p align="center">Version: 2.1.2</p>
 <p align ="center">
 <img src="https://github.com/NenEssence/Pokemons/assets/143894873/085ff96a-2709-4d59-8577-3cd07e4a7e49" align="center" width="280"/>
 </p>
