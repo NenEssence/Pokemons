@@ -8,14 +8,11 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.example.pokemons.R
 import com.example.pokemons.data.workmanager.UpdateWorker
-import com.example.pokemons.presentation.rv.PokemonAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    @Inject lateinit var adapter: PokemonAdapter
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {

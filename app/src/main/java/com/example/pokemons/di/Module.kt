@@ -9,7 +9,6 @@ import com.example.pokemons.data.local.PokemonDao
 import com.example.pokemons.data.remote.PokemonApi
 import com.example.pokemons.domain.PokemonInteractor
 import com.example.pokemons.domain.repository.PokemonRepository
-import com.example.pokemons.presentation.rv.PokemonAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,13 +23,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Module
 @InstallIn(SingletonComponent::class)
 object Module {
-
-    @Provides
-    @Singleton
-    fun provideAdapter(@ApplicationContext context: Context): PokemonAdapter {
-        return PokemonAdapter(context)
-    }
-
     @Provides
     fun provideInteractor(repository: PokemonRepository): PokemonInteractor {
         return PokemonInteractor(repository)
