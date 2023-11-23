@@ -1,5 +1,6 @@
 package com.example.pokemons.presentation.rv
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pokemons.domain.PokemonInteractor
@@ -9,6 +10,7 @@ import java.io.IOException
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -17,8 +19,6 @@ import kotlinx.coroutines.sync.withLock
 @HiltViewModel
 class PokemonsViewModel @Inject constructor(private val pokemonInteractor: PokemonInteractor) :
     ViewModel() {
-
-
     private val _pokemonDetailsLiveData = MutableLiveData<Pokemon>()
     val pokemonDetailsLiveData: MutableLiveData<Pokemon> = _pokemonDetailsLiveData
 
@@ -50,6 +50,7 @@ class PokemonsViewModel @Inject constructor(private val pokemonInteractor: Pokem
         canLoadMore = false
         CoroutineScope(Dispatchers.IO).launch() {
             mutex.withLock {
+                Log.d("debug", currentCoroutineContext().toString())
                 try {
                     loadingStateChange(true)
                     pokemonInteractor.loadStartPokemons()
@@ -66,6 +67,7 @@ class PokemonsViewModel @Inject constructor(private val pokemonInteractor: Pokem
         if (canLoadMore) {
             CoroutineScope(Dispatchers.IO).launch() {
                 mutex.withLock {
+                    Log.d("debug", currentCoroutineContext().toString())
                     try {
                         loadingStateChange(true)
                         pokemonInteractor.loadMorePokemons()
@@ -80,6 +82,7 @@ class PokemonsViewModel @Inject constructor(private val pokemonInteractor: Pokem
 
     fun updatePokemons() {
         CoroutineScope(Dispatchers.IO).launch() {
+            Log.d("debug", currentCoroutineContext().toString())
             try {
                 loadingStateChange(true)
                 pokemonInteractor.updatePokemons()
