@@ -39,17 +39,6 @@ class PokemonsFragment : Fragment(R.layout.fragment_pokemons) {
 
         binding.rvList.adapter = adapter
 
-        binding.rvList.addOnScrollListener(
-            object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    if (!recyclerView.canScrollVertically(1)) {
-                        pokemonsViewModel.loadMorePokemons()
-                    }
-                }
-            }
-        )
-
         binding.swiperefresh.setOnRefreshListener { pokemonsViewModel.updatePokemons() }
 
         adapter.onClick = {
@@ -75,6 +64,17 @@ class PokemonsFragment : Fragment(R.layout.fragment_pokemons) {
             adapter.list = pokemonList
             adapter.notifyDataSetChanged()
         }
+
+        binding.rvList.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (!recyclerView.canScrollVertically(1)) {
+                        pokemonsViewModel.loadMorePokemons()
+                    }
+                }
+            }
+        )
     }
 
     override fun onDestroyView() {

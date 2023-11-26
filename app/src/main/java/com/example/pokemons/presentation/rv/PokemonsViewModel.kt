@@ -1,20 +1,16 @@
 package com.example.pokemons.presentation.rv
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pokemons.domain.PokemonInteractor
 import com.example.pokemons.domain.entities.Pokemon
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.io.IOException
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
+import java.io.IOException
+import javax.inject.Inject
 
 @HiltViewModel
 class PokemonsViewModel @Inject constructor(private val pokemonInteractor: PokemonInteractor) :
@@ -29,8 +25,6 @@ class PokemonsViewModel @Inject constructor(private val pokemonInteractor: Pokem
     val errorStateLiveData: MutableLiveData<Boolean> = _errorStateLiveData
 
     private var canLoadMore: Boolean = true
-
-    private val mutex = Mutex()
 
     fun setDetailsPokemon(pokemonId: Int) {
         CoroutineScope(Dispatchers.IO).launch() {
@@ -49,40 +43,35 @@ class PokemonsViewModel @Inject constructor(private val pokemonInteractor: Pokem
     fun loadStartPokemons() {
         canLoadMore = false
         CoroutineScope(Dispatchers.IO).launch() {
-            mutex.withLock {
-                Log.d("debug", currentCoroutineContext().toString())
-                try {
-                    loadingStateChange(true)
-                    pokemonInteractor.loadStartPokemons()
-                } catch (e: IOException) {
-                    errorStateCall()
-                }
-                loadingStateChange(false)
+            try {
+                loadingStateChange(true)
+                pokemonInteractor.loadStartPokemons()
+            } catch (e: IOException) {
+                errorStateCall()
             }
+            loadingStateChange(false)
             canLoadMore = true
         }
     }
 
     fun loadMorePokemons() {
         if (canLoadMore) {
+            canLoadMore = false
             CoroutineScope(Dispatchers.IO).launch() {
-                mutex.withLock {
-                    Log.d("debug", currentCoroutineContext().toString())
-                    try {
-                        loadingStateChange(true)
-                        pokemonInteractor.loadMorePokemons()
-                    } catch (e: IOException) {
-                        errorStateCall()
-                    }
-                    loadingStateChange(false)
+                try {
+                    loadingStateChange(true)
+                    pokemonInteractor.loadMorePokemons()
+                } catch (e: IOException) {
+                    errorStateCall()
                 }
+                loadingStateChange(false)
+                canLoadMore = true
             }
         }
     }
 
     fun updatePokemons() {
         CoroutineScope(Dispatchers.IO).launch() {
-            Log.d("debug", currentCoroutineContext().toString())
             try {
                 loadingStateChange(true)
                 pokemonInteractor.updatePokemons()
