@@ -21,7 +21,7 @@
 - Room
 - Retrofit
     - Retrofit2
-    - OhHttp3
+    - OkHttp3
 - Glide
 
 
